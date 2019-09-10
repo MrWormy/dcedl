@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>dcedl</title>
+</head>
+<body>
+    <div id="choice" class="content dsp-flx">
+        <h1>DC & DL</h1>
+        <button class="btn-choice" value="dc">Des chiffres</button>
+        <button class="btn-choice" value="dl">Des lettres</button>
+    </div>
+    <div id="dc" class="content dsp-hdn">
+        <h2 id="dc-timer">DES CHIFFRES</h2>
+        <div id="dc-content" class="game-content"></div>
+        <button id="dc-launch" class="btn-select">Play</button>
+        <button class="btn-choice" value="choice">Retour</button>
+    </div>
+    <div id="dl" class="content dsp-hdn">
+        <h2 id="dl-timer">DES LETTRES</h2>
+        <div id="dl-content" class="game-content"></div>
+        <button id="dl-launch" class="btn-select">Random</button>
+        <button id="dl-vowel" class="btn-select">Voyelle</button>
+        <button id="dl-consonant" class="btn-select">Consonne</button>
+        <button class="btn-choice" value="dl">Reset</button>
+        <button class="btn-choice" value="choice">Retour</button>
+    </div>
+<script src="public/data/dl-set.js"></script>
+<script src="public/lib/dl.js"></script>
+<script src="public/lib/dc.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
