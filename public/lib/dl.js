@@ -1,70 +1,74 @@
-(function(win) {
-    const words = Object.keys(dlSet).sort().sort((a, b) => {
-        return b.length - a.length;
-    });
+import {dlSet, dlSetFreq} from '../data/dl-set.js';
 
-    function isDoable(word, draw) {
-        const d = draw.slice(0);
+const words = Object.keys(dlSet).sort().sort((a, b) => {
+    return b.length - a.length;
+});
 
-        for (let i = 0, len = word.length; i < len; i++) {
-            const ind = d.indexOf(word.charAt(i));
-            if (ind === -1) return false;
-            delete d[ind];
-        }
+function isDoable(word, draw) {
+    const d = draw.slice(0);
 
-        return true;
+    for (let i = 0, len = word.length; i < len; i++) {
+        const ind = d.indexOf(word.charAt(i));
+        if (ind === -1) return false;
+        delete d[ind];
     }
 
-    function computeMaxAvail(words, draw, numWord = 3) {
-        let maxWords = [];
+    return true;
+}
 
-        for (let i = 0, len = words.length; i < len; i++) {
-            const word = words[i];
-            if (isDoable(word, draw)) {
-                maxWords.push(`${dlSet[word]} (${word.length})`);
-                if (maxWords.length >= numWord) {
-                    break;
-                }
+function computeMaxAvail(words, draw, numWord = 3) {
+    let maxWords = [];
+
+    for (let i = 0, len = words.length; i < len; i++) {
+        const word = words[i];
+        if (isDoable(word, draw)) {
+            maxWords.push(`${dlSet[word]} (${word.length})`);
+            if (maxWords.length >= numWord) {
+                break;
             }
         }
-
-        return maxWords;
     }
 
-    function drawLetter(type) {
-        if (type === 'vowel' || type === 'consonant') {
-            const freqs = dlSetFreq[type];
-            const p = Math.random();
-            for (let i = 0, len = freqs.length; i < len; i++) {
-                if (p < freqs[i][1]) return freqs[i][0];
-            }
+    return maxWords;
+}
+
+function drawLetter(type) {
+    if (type === 'vowel' || type === 'consonant') {
+        const freqs = dlSetFreq[type];
+        const p = Math.random();
+        for (let i = 0, len = freqs.length; i < len; i++) {
+            if (p < freqs[i][1]) return freqs[i][0];
         }
-        return null;
+    }
+    return null;
+}
+
+function simulateDraw(length = 10) {
+    let i = 0;
+    const draw = [];
+    while (i < length) {
+        i++;
+        const p = Math.random();
+        if (p < dlSetFreq.vowFreq) draw.push(drawLetter('vowel'));
+        else draw.push(drawLetter('consonant'));
     }
 
-    function simulateDraw(length = 10) {
-        let i = 0;
-        const draw = [];
-        while (i < length) {
-            i++;
-            const p = Math.random();
-            if (p < dlSetFreq.vowFreq) draw.push(drawLetter('vowel'));
-            else draw.push(drawLetter('consonant'));
-        }
+    return draw;
+}
 
-        return draw;
-    }
+function simulateGame(length = 10) {
+    const d = simulateDraw(10);
 
-    function simulateGame(length = 10) {
-        const d = simulateDraw(10);
+    return {
+        draw: d,
+        answer: computeMaxAvail(words, d)
+    };
+}
 
-        return {
-            draw: d,
-            answer: computeMaxAvail(words, d)
-        };
-    }
+const maxAvail = computeMaxAvail.bind(null, words);
 
-    win.dlDraw = simulateDraw;
-    win.dlLetter = drawLetter;
-    win.dlMaxAvail = computeMaxAvail.bind(null, words);
-})(window);
+export {
+    simulateDraw,
+    drawLetter,
+    maxAvail
+}

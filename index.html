@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="public/style/style.css">
+    <link rel="modulepreload" href="public/data/dl-set.js">
+    <link rel="modulepreload" href="public/lib/dc.js">
+    <link rel="modulepreload" href="public/lib/dl.js">
+    <link rel="modulepreload" href="public/lib/game-main.js">
     <title>dcedl</title>
 </head>
 <body>
@@ -26,9 +30,6 @@
         <button class="btn-choice" value="dl">Reset</button>
         <button class="btn-choice" value="choice">Retour</button>
     </div>
-<script src="public/data/dl-set.js"></script>
-<script src="public/lib/dl.js"></script>
-<script src="public/lib/dc.js"></script>
-<script src="index.js"></script>
+<script type="module" src="public/lib/game-main.js"></script>
 </body>
 </html>
