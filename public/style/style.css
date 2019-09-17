@@ -1,11 +1,56 @@
 html {
     font-family: "Proxima Nova Soft", "Helvetica Neue", sans-serif;
-    font-size: 5vmax;
-    background-color: #e6e5e8;
+    background-color: #bce2e8;
+}
+
+body {
+    margin: 0;
 }
 
 button {
     user-select: none;
+    min-height: 2em;
+    flex: 1;
+    /*border-radius: 5px;*/
+    font-size: inherit;
+    border-color: cadetblue;
+    background-color: cadetblue;
+}
+
+.container {
+    font-size: 5vw;
+    position: relative;
+    background-color: antiquewhite;
+    width: calc(900vh / 16);
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 8px auto 0 auto;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.element {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flx-large {
+    flex: 1 100%;
+}
+
+@media (max-aspect-ratio: 10/16) {
+    .container {
+        font-size: 5vw;
+        width: 100vw;
+        margin-top: 0;
+    }
+}
+
+@media (min-aspect-ratio: 9/8) {
+    .container {
+        font-size: 5vw;
+        width: 50%;
+    }
 }
 
 button:focus {
@@ -14,46 +59,13 @@ button:focus {
 
 .dsp-flx {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .dsp-hdn {
     display: none;
 }
 
-.dsp-flx > * {
-    flex: 1 100%;
-}
-
-.dsp-flx > button {
-    min-height: 2em;
-    flex: 1;
-    border-radius: 5px;
-    border-color: cadetblue;
-    background-color: cadetblue;
-}
-
-.dsp-flx > h1,h2 {
-    text-align: center;
-    margin-top: 0;
-    padding: 0.5em;
-    background-color: #96daff;
-}
-.dsp-flx > h1 {
-    margin-bottom: 8px;
-}
-.dsp-flx > h2 {
-    margin-bottom: 0;
-}
-
-.content, .content > button {
-    font-size: 5vmax;
-}
-
 .game-content {
-    font-size: 6.6vmax;
-    min-height: 2.25em;
     white-space: pre-line;
 }
 
@@ -96,101 +108,92 @@ button:focus {
 
 
 /* timer mechanism */
-h2  {
-    will-change: background-position;
+.timer-hdn {
+    display: none;
 }
 
 .timer {
-    background: linear-gradient(to right, #9595f0 50%, #96daff 50%);
-    background-size: 200% 200%;
-    animation: slide 30s linear 0s 1 normal forwards running;
+    display: block;
 }
 
-.horloge {
-    display: inline-block;
-    position: relative;
-    border-radius: 50%;
-    width: 1.6em;
-    height: 1.6em;
-    overflow: hidden;
-    box-sizing: border-box;
-    border: 4px solid black;
-    /*noinspection CssInvalidPropertyValue*/
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-    animation: blacked 30s step-end 0s 1 normal forwards running;
-}
-
-.front-horloge {
+.timer-elem {
     position: absolute;
-    visibility: visible;
-    z-index: 3;
-    width: 50%;
-    height: 100%;
-    border-top-left-radius: 100% 50%;
-    border-bottom-left-radius: 100% 50%;
-    background-color: #e6e5e8;
-    animation: despawn 15s step-end 0s 1 normal forwards running;
+    will-change: backgroun-position;
 }
 
-.static-back-horloge {
-    position: absolute;
-    width: 100%;
-    height: 150%;
-    background-color: black;
-    z-index: 2;
-    visibility: hidden;
-    left:  50%;
-    top: -25%;
-    animation: spawn 15s step-end 0s 1 normal forwards running;
+.timer-top {
+    top: 0;
+    left: 0;
+    width: calc(100% - 4px);
+    height: 4px;
+    background: linear-gradient(to left, antiquewhite 50%, black 50%) 100% 0;
+    background-size: 200% 100%;
+    animation: slide-right 15s linear 0s 1 normal none running;
 }
 
-.back-horloge {
-    position: absolute;
-    z-index: 2;
-    width: 150%;
-    height: 150%;
-    left: -100%;
-    top: -25%;
-    background-color: black;
-    transform-origin: right center;
-    will-change: transform;
-    animation: rotate 30s linear 0s 1 normal forwards running;
-}
-
-@keyframes rotate {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes spawn {
-    to {
-        visibility: visible;
-    }
-}
-
-@keyframes despawn {
-    to {
-        visibility: hidden;
-    }
-}
-
-@keyframes blacked {
-    to {
-        background-color: black;
-    }
-}
-
-@keyframes slide {
+@keyframes slide-right {
     from {
-        background-position:100% 50%
+        z-index: 1;
     }
     50% {
-        background-position:50% 50%
+        background-position:0 0
     }
     to {
-        background-position:0 50%
+        background-position:-100% 0;
+        z-index: auto;
     }
 }
 
+.timer-right {
+    right: 0;
+    top: 0;
+    height: calc(100% - 4px);
+    width: 4px;
+    background: linear-gradient(to top, antiquewhite 50%, black 50%) 0 100%;
+    background-size: 100% 200%;
+    animation: slide-bottom 15s linear 7.5s 1 normal none running;
+}
+@keyframes slide-bottom {
+    50% {
+        background-position:0 0
+    }
+    to {
+        background-position:0 -100%
+    }
+}
 
+.timer-bottom {
+    bottom: 0;
+    left: 4px;
+    width: calc(100% - 4px);
+    height: 4px;
+    background: linear-gradient(to right, antiquewhite 50%, black 50%) 0 0;
+    background-size: 200% 100%;
+    animation: slide-left 15s linear 15s 1 normal none running;
+}
+@keyframes slide-left {
+    50% {
+        background-position:100% 0
+    }
+    to {
+        background-position:200% 0
+    }
+}
+
+.timer-left {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, antiquewhite 50%, black 50%) 0 0;
+    background-size: 100% 200%;
+    animation: slide-top 7.4s linear 22.5s 1 normal none running;
+}
+@keyframes slide-top {
+    50% {
+        background-position:0 50%
+    }
+    to {
+        background-position:0 100%
+    }
+}

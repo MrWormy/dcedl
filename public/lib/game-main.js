@@ -12,7 +12,7 @@ function clearGame() {
     let child;
     gameState = null;
     if (timerElement) {
-        timerElement.className = '';
+        timerElement.className = 'timer-hdn';
         timerElement = null;
     }
     if (gameTimer) {
@@ -31,7 +31,7 @@ function clearGame() {
 }
 
 function hideContentButOne(type) {
-    const contents = document.querySelectorAll('.content');
+    const contents = document.querySelectorAll('.container');
     Array.from(contents).forEach((content) => {
         if (content.id === type) {
             content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-flx');

@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="public/style/style.css">
     <link rel="modulepreload" href="public/data/dl-set.js">
     <link rel="modulepreload" href="public/lib/dc.js">
@@ -10,25 +11,40 @@
     <title>dcedl</title>
 </head>
 <body>
-    <div id="choice" class="content dsp-flx">
-        <h1>DC & DL</h1>
-        <button class="btn-choice" value="dc">Des chiffres</button>
-        <button class="btn-choice" value="dl">Des lettres</button>
+    <div id="choice" class="container dsp-flx">
+        <div class="element">
+            <button class="btn-choice flx-large" value="dc">Des chiffres</button>
+            <button class="btn-choice flx-large" value="dl">Des lettres</button>
+        </div>
     </div>
-    <div id="dc" class="content dsp-hdn">
-        <h2 id="dc-timer">DES CHIFFRES</h2>
-        <div id="dc-content" class="game-content"></div>
-        <button id="dc-launch" class="btn-select">Play</button>
-        <button class="btn-choice" value="choice">Retour</button>
+    <div id="dc" class="container dsp-hdn">
+        <div class="timer-hdn" id="dc-timer">
+            <div class="timer-elem timer-top"></div>
+            <div class="timer-elem timer-right"></div>
+            <div class="timer-elem timer-bottom"></div>
+            <div class="timer-elem timer-left"></div>
+        </div>
+        <div class="element game-content" id="dc-content"></div>
+        <div class="element" id="dc-buttons">
+            <button id="dc-launch" class="btn-select flx-large">Jouer</button>
+            <button class="btn-choice flx-large" value="choice">Retour</button>
+        </div>
     </div>
-    <div id="dl" class="content dsp-hdn">
-        <h2 id="dl-timer">DES LETTRES</h2>
-        <div id="dl-content" class="game-content"></div>
-        <button id="dl-launch" class="btn-select">Random</button>
-        <button id="dl-vowel" class="btn-select">Voyelle</button>
-        <button id="dl-consonant" class="btn-select">Consonne</button>
-        <button class="btn-choice" value="dl">Reset</button>
-        <button class="btn-choice" value="choice">Retour</button>
+    <div id="dl" class="container dsp-hdn">
+        <div class="timer-hdn" id="dl-timer">
+            <div class="timer-elem timer-top"></div>
+            <div class="timer-elem timer-right"></div>
+            <div class="timer-elem timer-bottom"></div>
+            <div class="timer-elem timer-left"></div>
+        </div>
+        <div class="element game-content" id="dl-content"></div>
+        <div class="element" id="dl-buttons">
+            <button id="dl-launch" class="btn-select">Aléatoire</button>
+            <button id="dl-vowel" class="btn-select">Voyelle</button>
+            <button id="dl-consonant" class="btn-select">Consonne</button>
+            <button class="btn-choice" value="dl">Reset</button>
+            <button class="btn-choice" value="choice">Retour</button>
+        </div>
     </div>
 <script type="module" src="public/lib/game-main.js"></script>
 </body>
