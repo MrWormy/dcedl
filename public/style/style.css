@@ -18,7 +18,7 @@ button {
 }
 
 .container {
-    font-size: 5vw;
+    font-size: calc(45vh / 8);
     position: relative;
     background-color: antiquewhite;
     width: calc(900vh / 16);
@@ -40,7 +40,7 @@ button {
 
 @media (max-aspect-ratio: 10/16) {
     .container {
-        font-size: 5vw;
+        font-size: 10vw;
         width: 100vw;
         margin-top: 0;
     }
@@ -124,7 +124,7 @@ button:focus {
 .timer-top {
     top: 0;
     left: 0;
-    width: calc(100% - 4px);
+    width: 100%;
     height: 4px;
     background: linear-gradient(to left, antiquewhite 50%, black 50%) 100% 0;
     background-size: 200% 100%;
@@ -132,22 +132,18 @@ button:focus {
 }
 
 @keyframes slide-right {
-    from {
-        z-index: 1;
-    }
     50% {
         background-position:0 0
     }
     to {
         background-position:-100% 0;
-        z-index: auto;
     }
 }
 
 .timer-right {
     right: 0;
     top: 0;
-    height: calc(100% - 4px);
+    height: 100%;
     width: 4px;
     background: linear-gradient(to top, antiquewhite 50%, black 50%) 0 100%;
     background-size: 100% 200%;
@@ -164,8 +160,8 @@ button:focus {
 
 .timer-bottom {
     bottom: 0;
-    left: 4px;
-    width: calc(100% - 4px);
+    left: 0;
+    width: 100%;
     height: 4px;
     background: linear-gradient(to right, antiquewhite 50%, black 50%) 0 0;
     background-size: 200% 100%;
@@ -191,9 +187,11 @@ button:focus {
 }
 @keyframes slide-top {
     50% {
-        background-position:0 50%
+        background-position:0 50%;
+        z-index: 1
     }
     to {
-        background-position:0 100%
+        background-position:0 100%;
+        z-index: 1
     }
 }
