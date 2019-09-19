@@ -1,4 +1,5 @@
 import * as dc from './dc.js';
+import DcGame from './dc-game.js';
 import * as dl from './dl.js';
 
 // Display logic
@@ -122,7 +123,9 @@ const dcContent = document.getElementById('dc-content');
 const dcTimer = document.getElementById('dc-timer');
 
 function startDC() {
-    let s;
+    const dcGame = new DcGame(dcContent, dcTimer);
+    dcGame.start();
+/*    let s;
     const g = dc.init();
     gameContent = dcContent;
     clearGame();
@@ -148,7 +151,7 @@ function startDC() {
         }, 5000)
     });
     dcContent.appendChild(draw);
-    dcContent.appendChild(draw2);
+    dcContent.appendChild(draw2);*/
 }
 
 dcLaunch.addEventListener('click', startDC, false);

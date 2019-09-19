@@ -78,7 +78,9 @@ button:focus {
     padding: 0.2em 0;
     display: flex;
     flex-wrap: wrap;
-    align-items: center
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .game-draw > span {
@@ -92,7 +94,7 @@ button:focus {
     padding: 0.25em 0.15em;
     background: #333;
     border-radius: 5px;
-    margin: 0.1em 0.15em 0.1em 0;
+    margin-bottom: 0.15em;
     color: white;
     user-select: none;
 }
@@ -128,15 +130,15 @@ button:focus {
     height: 4px;
     background: linear-gradient(to left, antiquewhite 50%, black 50%) 100% 0;
     background-size: 200% 100%;
-    animation: slide-right 15s linear 0s 1 normal none running;
+    animation: slide-right 15s linear 0s 1 normal forwards running;
 }
 
 @keyframes slide-right {
     50% {
-        background-position:0 0
+        background-position:50% 0
     }
     to {
-        background-position:-100% 0;
+        background-position:0 0;
     }
 }
 
@@ -147,14 +149,14 @@ button:focus {
     width: 4px;
     background: linear-gradient(to top, antiquewhite 50%, black 50%) 0 100%;
     background-size: 100% 200%;
-    animation: slide-bottom 15s linear 7.5s 1 normal none running;
+    animation: slide-bottom 15s linear 15s 1 normal forwards running;
 }
 @keyframes slide-bottom {
     50% {
-        background-position:0 0
+        background-position:0 50%
     }
     to {
-        background-position:0 -100%
+        background-position:0 0
     }
 }
 
@@ -163,16 +165,16 @@ button:focus {
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(to right, antiquewhite 50%, black 50%) 0 0;
+    background: linear-gradient(to left, antiquewhite 50%, black 50%) 100% 0;
     background-size: 200% 100%;
-    animation: slide-left 15s linear 15s 1 normal none running;
+    animation: slide-left 15s linear 15s 1 normal forwards running;
 }
 @keyframes slide-left {
     50% {
-        background-position:100% 0
+        background-position:50% 0
     }
     to {
-        background-position:200% 0
+        background-position:0 0
     }
 }
 
@@ -181,17 +183,15 @@ button:focus {
     top: 0;
     height: 100%;
     width: 4px;
-    background: linear-gradient(to bottom, antiquewhite 50%, black 50%) 0 0;
+    background: linear-gradient(to top, antiquewhite 50%, black 50%) 0 100%;
     background-size: 100% 200%;
-    animation: slide-top 7.4s linear 22.5s 1 normal none running;
+    animation: slide-top 15s linear 0s 1 normal forwards running;
 }
 @keyframes slide-top {
     50% {
         background-position:0 50%;
-        z-index: 1
     }
     to {
-        background-position:0 100%;
-        z-index: 1
+        background-position:0 0;
     }
 }
