@@ -49,7 +49,7 @@ export default class {
     }
 
     initDrawElem() {
-        this.drawElem = generateDraw();
+        this.drawElem = generateDraw('game-draw-dl');
         this.gameElem.appendChild(this.drawElem);
     }
 

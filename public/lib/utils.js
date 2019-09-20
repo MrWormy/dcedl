@@ -26,9 +26,9 @@ export function generateTile(str, cb = null) {
     return sp;
 }
 
-export function generateDraw() {
+export function generateDraw(className = null) {
     const draw = document.createElement('div');
-    draw.className = 'game-draw';
+    draw.className = `game-draw${className ? ` ${className}` : ''}`;
 
     return draw;
 }
