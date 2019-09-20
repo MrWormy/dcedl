@@ -40,3 +40,27 @@ export function generateAnswer(str) {
 
     return d;
 }
+
+export function generateTimer(parent) {
+    const tt = document.createElement('div');
+    const tr = document.createElement('div');
+    const tb = document.createElement('div');
+    const tl = document.createElement('div');
+
+    tt.className = 'timer-elem timer-top';
+    tr.className = 'timer-elem timer-right';
+    tb.className = 'timer-elem timer-bottom';
+    tl.className = 'timer-elem timer-left';
+
+    parent.appendChild(tl);
+    parent.appendChild(tb);
+    parent.appendChild(tr);
+    parent.appendChild(tt);
+}
+
+export function clean(element) {
+    let child;
+    while ((child = element.firstChild) !== null) {
+        element.removeChild(child);
+    }
+}

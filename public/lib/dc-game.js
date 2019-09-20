@@ -1,5 +1,5 @@
 import * as dc from './dc.js';
-import {generateTile, generateDraw, generateAnswer} from './utils.js';
+import {generateTile, generateDraw, generateAnswer, clean, generateTimer} from './utils.js';
 
 const symbols = ['+', '−', '×', '÷'];
 
@@ -13,6 +13,10 @@ export default class {
         this.gameDelay = gameDelay * 1000;
         this.solution = {};
         this.gameTimer = null;
+        this.gameStart = () => {
+            this.gameTimer = setTimeout(this.displaySolution.bind(this), this.gameDelay);
+            this.updateSolver(dc.solve({draw: this.draw, target: this.target}));
+        }
     }
 
     displaySolution() {
@@ -23,17 +27,34 @@ export default class {
         this.solution = sol;
     }
 
-    gameStart() {
-        this.gameTimer = setTimeout(() => this.displaySolution(), this.gameDelay);
-        dc.solve({draw: this.draw, target: this.target}, (solution) => this.updateSolution(solution));
+    updateSolver(solverObj) {
+        this.solveCancel = solverObj.cancel;
+        solverObj.solver.then((solution) => {
+            this.solveCancel = null;
+            this.updateSolution(solution);
+        });
     }
 
     spawnTimer() {
-        this.timerElem.addEventListener('animationstart', e => this.gameStart(), {once: true});
+        this.timerElem.addEventListener('animationstart', this.gameStart, {once: true});
+        generateTimer(this.timerElem);
         this.timerElem.className = 'timer';
     }
 
-    start() {
+    removeTimer() {
+        clearTimeout(this.gameTimer);
+        this.timerElem.removeEventListener('animationstart', this.gameStart);
+        this.timerElem.className = 'timer-hdn';
+        clean(this.timerElem);
+    }
+
+    cancel() {
+        if (typeof this.solveCancel === 'function') this.solveCancel();
+        clean(this.gameElem);
+        this.removeTimer();
+    }
+
+    spawnDraw() {
         // numbers draw
         const d = generateDraw();
         this.draw.forEach((tile) => {
@@ -49,11 +70,16 @@ export default class {
         });
 
         // expected result
-        s.appendChild(generateTile(' '));
+        s.appendChild(generateTile('#'));
         s.appendChild(generateTile(this.target));
 
         this.gameElem.appendChild(d);
         this.gameElem.appendChild(s);
+    }
+
+    start() {
+        // spawn draw
+        this.spawnDraw();
 
         // spawn timer and start the game
         this.spawnTimer();

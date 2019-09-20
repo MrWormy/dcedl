@@ -70,5 +70,5 @@ onmessage = function(e) {
         }
     }
 
-    postMessage({...new Solver(e.data.draw, e.data.target).solve()})
+    postMessage(new Solver(e.data.draw, e.data.target).solve())
 };

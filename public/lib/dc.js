@@ -19,12 +19,17 @@ function init(drawSize = 6, min = 101, max = 999, nums = [1, 1, 2, 2, 3, 3, 4, 4
     }
 }
 
-function solve(gameState, cb) {
+function solve(gameState) {
     const w = new Worker('public/lib/dc-solver.js');
-    w.onmessage = function(e) {
-        cb(e.data);
+    return {
+        cancel: () => w.terminate(),
+        solver: new Promise(resolve => {
+            w.onmessage = function(e) {
+                resolve(e.data);
+            };
+            w.postMessage(gameState);
+        })
     };
-    w.postMessage(gameState);
 }
 
 export {
