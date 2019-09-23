@@ -1,27 +1,28 @@
-function handleClick(cb, e) {
+function handleClick(cb, elem, e) {
     e.preventDefault();
-    cb();
+    cb(elem);
 }
 
-function handleTouchend(cb, e) {
+function handleTouchend(cb, elem, e) {
     e.preventDefault();
     if (e.touches.length === 0 && e.changedTouches.length === 1) {
         const cr = e.target.getBoundingClientRect();
         const t = e.changedTouches[0];
         if (t.clientX >= cr.left && t.clientX <= cr.left + cr.width && t.clientY >= cr.top && t.clientY <= cr.top + cr.height) {
-            cb();
+            cb(elem);
         }
     }
 }
 
 export function generateTile(str, cb = null) {
+    const value = String(str);
     const sp = document.createElement('span');
-    const text = document.createTextNode(String(str).toUpperCase());
+    const text = document.createTextNode(value.toUpperCase());
 
     sp.appendChild(text);
     if (typeof cb === 'function') {
-        sp.addEventListener('touchend', handleTouchend.bind(null, cb), false);
-        sp.addEventListener('mousedown', handleClick.bind(null, cb), false);
+        sp.addEventListener('touchend', handleTouchend.bind(null, cb, sp), false);
+        sp.addEventListener('mousedown', handleClick.bind(null, cb, sp), false);
     }
     return sp;
 }
@@ -58,9 +59,31 @@ export function generateTimer(parent) {
     parent.appendChild(tt);
 }
 
+export function removeElem(elem) {
+    if (elem.parentElement) elem.parentElement.removeChild(elem);
+}
+
 export function clean(element) {
     let child;
     while ((child = element.firstChild) !== null) {
         element.removeChild(child);
     }
+}
+
+function addClass(elem, className) {
+    const name = new RegExp(`(^| )${className}( |$)`);
+    if(elem.className.search(name) === -1) elem.className += `${elem.className.length === 0 ? '' : ' '}grayed`;
+}
+
+function removeAllSameClass(elem, className) {
+    const name = new RegExp(`(^| )(${className}( |$))+`);
+    elem.className = elem.className.replace(name, (c, p1, p2, p3) => (p1 === ' ' && p1 === p3) ? ' ' : '');
+}
+
+export function greyOut(elem) {
+    addClass(elem, 'grayed');
+}
+
+export function unGrey(elem) {
+    removeAllSameClass(elem, 'grayed');
 }

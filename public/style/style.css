@@ -37,11 +37,20 @@ button {
     flex: 1 100%;
 }
 
+#loading {
+    height: calc(100vh - 16px);
+    background-size: 100% 100%;
+    background-image: url("../assets/loading.png");
+}
+
 @media (max-aspect-ratio: 10/16) {
     .container {
         font-size: 10vw;
         width: 100vw;
         margin-top: 0;
+    }
+    #loading {
+        height: 100vh;
     }
 }
 
@@ -106,6 +115,10 @@ button:focus {
 
 .game-draw-dl > span {
     margin-right: 0.1em;
+}
+
+.grayed {
+    background: #888 !important;
 }
 
 /*.game-draw > span::after {

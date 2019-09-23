@@ -16,6 +16,10 @@ function isDoable(word, draw) {
     return true;
 }
 
+function isOkay(word, draw) {
+    return dlSet.hasOwnProperty(word) && isDoable(word, draw);
+}
+
 function computeMaxAvail(words, draw, numWord = 3) {
     let maxWords = [];
 
@@ -56,19 +60,11 @@ function simulateDraw(length = 10) {
     return draw;
 }
 
-function simulateGame(length = 10) {
-    const d = simulateDraw(10);
-
-    return {
-        draw: d,
-        answer: computeMaxAvail(words, d)
-    };
-}
-
 const maxAvail = computeMaxAvail.bind(null, words);
 
 export {
     simulateDraw,
     drawLetter,
-    maxAvail
+    maxAvail,
+    isOkay
 }

@@ -1,5 +1,4 @@
 'use strict';
-
 import DcGame from './dc-game.js';
 import DlGame from './dl-game.js';
 
@@ -13,12 +12,12 @@ function clearGame() {
     }
 }
 
-function hideContentButOne(type) {
+function hideContentButOne(type, setNewState = true) {
     const contents = document.querySelectorAll('.container');
     Array.from(contents).forEach((content) => {
         if (content.id === type) {
             content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-flx');
-            history.pushState(null, type, `#${type}`);
+            if (setNewState) history.pushState(null, type, `#${type}`);
         }
         else content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-hdn');
     });
@@ -78,3 +77,14 @@ dlVowel.addEventListener('click', drawLetter.bind(null, 'vowel'), false);
 dlConsonant.addEventListener('click', drawLetter.bind(null, 'consonant'), false);
 dlLaunch.addEventListener('click', draw, false);
 // location.hash.s + window.addEventListener('popstate', e => console.log(e, e.state));
+
+// navigation handling
+function setFromHash() {
+    console.log('state changed');
+    const type = location.hash.slice(1) || 'choice';
+    clearGame();
+    hideContentButOne(type, false);
+}
+
+window.onpopstate = setFromHash;
+setFromHash();
