@@ -1,14 +1,16 @@
 function handleClick(cb, elem, e) {
-    e.preventDefault();
-    cb(elem);
+    if (e.button === 0) {
+        e.preventDefault();
+        cb(elem);
+    }
 }
 
 function handleTouchend(cb, elem, e) {
-    e.preventDefault();
     if (e.touches.length === 0 && e.changedTouches.length === 1) {
         const cr = e.target.getBoundingClientRect();
         const t = e.changedTouches[0];
         if (t.clientX >= cr.left && t.clientX <= cr.left + cr.width && t.clientY >= cr.top && t.clientY <= cr.top + cr.height) {
+            e.preventDefault();
             cb(elem);
         }
     }
@@ -64,10 +66,11 @@ export function removeElem(elem) {
 }
 
 export function clean(element) {
-    let child;
+    element.innerHTML = '';
+    /*let child;
     while ((child = element.firstChild) !== null) {
         element.removeChild(child);
-    }
+    }*/
 }
 
 function addClass(elem, className) {

@@ -88,8 +88,8 @@ export default class {
     }
 
     cancel() {
-        clean(this.gameElem);
         this.removeTimer();
+        clean(this.gameElem);
         this.draw = [];
         this.picked = new Map();
         this.gameState = PICKING;

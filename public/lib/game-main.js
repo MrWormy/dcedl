@@ -13,19 +13,14 @@ function clearGame() {
 }
 
 function hideContentButOne(type, setNewState = true) {
-    if (type === 'choice' && setNewState) {
-        window.history.back();
-    }
-    else {
-        const contents = document.querySelectorAll('.container');
-        Array.from(contents).forEach((content) => {
-            if (content.id === type) {
-                content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-flx');
-                if (setNewState) history.pushState(null, type, `#${type}`);
-            }
-            else content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-hdn');
-        });
-    }
+    const contents = document.querySelectorAll('.container');
+    Array.from(contents).forEach((content) => {
+        if (content.id === type) {
+            content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-flx');
+        }
+        else content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-hdn');
+    });
+    if (setNewState) window.history.pushState(null, type, `#${type}`);
 }
 
 function setFromHash() {
@@ -34,10 +29,26 @@ function setFromHash() {
     hideContentButOne(type, false);
 }
 
+function setupFirstHashVisit() {
+    const current = window.location.hash;
+    const type = current.slice(1) || 'choice';
+    const root = window.location.href.slice(0, -current.length);
+    // in case entering app from something else than choice menu
+    if(type !== 'choice') {
+        window.history.replaceState(null, 'choice', root);
+        window.history.pushState(null, current.slice(1), current);
+    }
+    setFromHash();
+}
+
 function displayChoice(e) {
     const type = e.target.value;
     clearGame();
-    hideContentButOne(type);
+    if (type === 'choice') {
+        window.history.back();
+    } else {
+        hideContentButOne(type);
+    }
 }
 
 Array.from(document.querySelectorAll('.btn-choice')).forEach((choiceEl) => {
@@ -93,4 +104,4 @@ dlReset.addEventListener('click', setFromHash);
 
 // navigation handling
 window.onpopstate = setFromHash;
-setFromHash();
+setupFirstHashVisit();
