@@ -1,6 +1,6 @@
 html {
     font-family: "Proxima Nova Soft", "Helvetica Neue", sans-serif;
-    background-color: #bce2e8;
+    background-color: #dae0e6;
 }
 
 body {
@@ -8,18 +8,21 @@ body {
 }
 
 button {
-    user-select: none;
     min-height: 2em;
     flex: 1;
     font-size: inherit;
-    border-color: cadetblue;
-    background-color: cadetblue;
+    border-color: #4267b2;
+    background-color: #4267b2;
+}
+
+* {
+    user-select: none;
 }
 
 .container {
     font-size: calc(45vh / 8);
     position: relative;
-    background-color: antiquewhite;
+    background-color: white;
     width: calc(900vh / 16);
     display: flex;
     flex-flow: column nowrap;
@@ -43,7 +46,7 @@ button {
     background-image: url("../assets/loading.png");
 }
 
-@media (max-aspect-ratio: 10/16) {
+@media (max-aspect-ratio: 11/16) {
     .container {
         font-size: 10vw;
         width: 100vw;
@@ -110,7 +113,6 @@ button:focus {
     border-radius: 5px;
     margin-bottom: 0.15em;
     color: white;
-    user-select: none;
 }
 
 .game-draw-dl > span {

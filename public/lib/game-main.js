@@ -13,14 +13,19 @@ function clearGame() {
 }
 
 function hideContentButOne(type, setNewState = true) {
-    const contents = document.querySelectorAll('.container');
-    Array.from(contents).forEach((content) => {
-        if (content.id === type) {
-            content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-flx');
-            if (setNewState) history.pushState(null, type, `#${type}`);
-        }
-        else content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-hdn');
-    });
+    if (type === 'choice' && setNewState) {
+        window.history.back();
+    }
+    else {
+        const contents = document.querySelectorAll('.container');
+        Array.from(contents).forEach((content) => {
+            if (content.id === type) {
+                content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-flx');
+                if (setNewState) history.pushState(null, type, `#${type}`);
+            }
+            else content.className = content.className.replace(/dsp-[^\s]*/, 'dsp-hdn');
+        });
+    }
 }
 
 function displayChoice(e) {
@@ -55,6 +60,7 @@ const dlVowel = document.getElementById('dl-vowel');
 const dlConsonant = document.getElementById('dl-consonant');
 const dlContent = document.getElementById('dl-content');
 const dlTimer = document.getElementById('dl-timer');
+const dlReset = document.getElementById('dl-reset');
 
 function initDlGame() {
     clearGame();
@@ -76,11 +82,11 @@ function draw() {
 dlVowel.addEventListener('click', drawLetter.bind(null, 'vowel'), false);
 dlConsonant.addEventListener('click', drawLetter.bind(null, 'consonant'), false);
 dlLaunch.addEventListener('click', draw, false);
+dlReset.addEventListener('click', e => {clearGame(); hideContentButOne('dl', false)});
 // location.hash.s + window.addEventListener('popstate', e => console.log(e, e.state));
 
 // navigation handling
 function setFromHash() {
-    console.log('state changed');
     const type = location.hash.slice(1) || 'choice';
     clearGame();
     hideContentButOne(type, false);
