@@ -28,6 +28,12 @@ function hideContentButOne(type, setNewState = true) {
     }
 }
 
+function setFromHash() {
+    const type = location.hash.slice(1) || 'choice';
+    clearGame();
+    hideContentButOne(type, false);
+}
+
 function displayChoice(e) {
     const type = e.target.value;
     clearGame();
@@ -82,15 +88,9 @@ function draw() {
 dlVowel.addEventListener('click', drawLetter.bind(null, 'vowel'), false);
 dlConsonant.addEventListener('click', drawLetter.bind(null, 'consonant'), false);
 dlLaunch.addEventListener('click', draw, false);
-dlReset.addEventListener('click', e => {clearGame(); hideContentButOne('dl', false)});
+dlReset.addEventListener('click', setFromHash);
 // location.hash.s + window.addEventListener('popstate', e => console.log(e, e.state));
 
 // navigation handling
-function setFromHash() {
-    const type = location.hash.slice(1) || 'choice';
-    clearGame();
-    hideContentButOne(type, false);
-}
-
 window.onpopstate = setFromHash;
 setFromHash();
