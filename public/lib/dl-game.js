@@ -1,4 +1,5 @@
 import * as dl from './dl.js';
+import DrawHandler from './tile-handler.js'
 import {generateTile, generateDraw, generateAnswer, clean, generateTimer, greyOut, unGrey, removeElem} from './utils.js';
 
 const PICKING = 1;
@@ -8,18 +9,41 @@ const ENDED = 3;
 export default class {
     constructor(gameElem, timerElem, drawSize = 10, gameDelay = 30) {
         this.draw = [];
+        this.picked = new Map();
+        this.drawTiles = new DrawHandler(gameElem.firstElementChild);
+        this.pickedTiles = new DrawHandler(gameElem.firstChild.nextElementSibling);
         this.drawSize = 10;
         this.gameState = PICKING;
         this.timerElem = timerElem;
         this.gameElem = gameElem;
         this.gameDelay = gameDelay * 1000;
-        this.picked = new Map();
         this.solution = [];
         this.gameTimer = null;
+        this.drawTiles.attachTouchListener(this.pickDraw.bind(this));
+        this.pickedTiles.attachTouchListener(this.pickPick.bind(this));
         this.gameStart = () => {
             this.gameTimer = setTimeout(this.displaySolution.bind(this), this.gameDelay);
             this.updateSolution(dl.maxAvail(this.draw));
         }
+    }
+
+    pickDraw(index) {
+        if (this.gameState === STARTED) {
+            if (!this.picked.has(index)) {
+                greyOut(elem);
+                this.picked.set(index, );
+            } else {
+                removeElem(this.picked.get(index));
+                this.picked.delete(index);
+                unGrey(elem);
+                if (this.picked.size === 0) this.cleanPicked();
+            }
+            // console.log('current word is : ', this.pickedSolution);
+        }
+    }
+
+    pickPick(index) {
+
     }
 
     get pickedSolution() {
@@ -89,7 +113,8 @@ export default class {
 
     cancel() {
         this.removeTimer();
-        clean(this.gameElem);
+        this.drawTiles.reset();
+        this.pickedTiles.reset();
         this.draw = [];
         this.picked = new Map();
         this.gameState = PICKING;
@@ -101,11 +126,7 @@ export default class {
     }
 
     displayDrawLetter(l, index) {
-        const lElem = generateTile(l, this.pickLetter.bind(this, index));
-        if (!this.drawElem) {
-            this.initDrawElem();
-        }
-        this.drawElem.appendChild(lElem);
+        this.drawTiles.setValue(l, index);
     }
 
     drawLetter(type) {
@@ -121,7 +142,6 @@ export default class {
     drawSet() {
         if (this.gameState === PICKING) {
             this.draw = dl.simulateDraw(this.drawSize);
-            clean(this.gameElem);
             this.draw.forEach((letter, index) => {
                 this.displayDrawLetter(letter, index);
             });

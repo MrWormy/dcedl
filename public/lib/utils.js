@@ -16,6 +16,38 @@ function handleTouchend(cb, elem, e) {
     }
 }
 
+export function generateClickListener(cb) {
+    return function (e) {
+        if (e.button === 0) {
+            e.preventDefault();
+            cb();
+        }
+    }
+}
+
+export function generateTouchListener(cb) {
+    return function(e) {
+        if (e.touches.length === 0 && e.changedTouches.length === 1) {
+            const cr = e.target.getBoundingClientRect();
+            const t = e.changedTouches[0];
+            if (t.clientX >= cr.left && t.clientX <= cr.left + cr.width && t.clientY >= cr.top && t.clientY <= cr.top + cr.height) {
+                e.preventDefault();
+                cb();
+            }
+        }
+    }
+}
+
+export function detachTouchCb(elem, cb) {
+    elem.removeEventListener('touchend', cb, false);
+    elem.removeEventListener('mousedown', cb, false);
+}
+
+export function attachTouchCb(elem, cb) {
+    elem.addEventListener('touchend', cb, false);
+    elem.addEventListener('mousedown', cb, false);
+}
+
 export function generateTile(str, cb = null) {
     const value = String(str);
     const sp = document.createElement('span');
@@ -73,14 +105,12 @@ export function clean(element) {
     }*/
 }
 
-function addClass(elem, className) {
-    const name = new RegExp(`(^| )${className}( |$)`);
-    if(elem.className.search(name) === -1) elem.className += `${elem.className.length === 0 ? '' : ' '}grayed`;
+export function addClass(elem, className) {
+    elem.classList.add(className);
 }
 
-function removeAllSameClass(elem, className) {
-    const name = new RegExp(`(^| )(${className}( |$))+`);
-    elem.className = elem.className.replace(name, (c, p1, p2, p3) => (p1 === ' ' && p1 === p3) ? ' ' : '');
+export function removeClass(elem, className) {
+    elem.classList.remove(className);
 }
 
 export function greyOut(elem) {
@@ -88,5 +118,5 @@ export function greyOut(elem) {
 }
 
 export function unGrey(elem) {
-    removeAllSameClass(elem, 'grayed');
+    removeClass(elem, 'grayed');
 }
