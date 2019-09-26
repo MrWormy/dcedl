@@ -10,6 +10,14 @@ class Tile {
         this.listeners = new Map();
     }
 
+    pick() {
+        this.back.classList.add('grayed');
+    }
+
+    unpick() {
+        this.back.classList.remove('grayed');
+    }
+
     flip() {
         this.flipped = true;
         this.tile.classList.add('tile-flipped');
@@ -48,6 +56,7 @@ class Tile {
     }
 
     reset() {
+        this.unpick();
         this.unflip();
         this.removeAllListeners();
     }
@@ -62,8 +71,20 @@ export default class DrawHandler {
         this.tiles.forEach(t => t.reset());
     }
 
+    pick(index) {
+        this.tiles[index].pick();
+    }
+
+    unpick(index) {
+        this.tiles[index].unpick();
+    }
+
     setValue(value, index) {
         this.tiles[index].setValue(value.toUpperCase());
+    }
+
+    remove(index) {
+        this.tiles[index].unflip();
     }
 
     attachTouchListener(cb) {

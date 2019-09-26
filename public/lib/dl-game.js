@@ -1,6 +1,6 @@
 import * as dl from './dl.js';
 import DrawHandler from './tile-handler.js'
-import {generateTile, generateDraw, generateAnswer, clean, generateTimer, greyOut, unGrey, removeElem} from './utils.js';
+import {generateAnswer, clean, generateTimer} from './utils.js';
 
 const PICKING = 1;
 const STARTED = 2;
@@ -9,9 +9,9 @@ const ENDED = 3;
 export default class {
     constructor(gameElem, timerElem, drawSize = 10, gameDelay = 30) {
         this.draw = [];
-        this.picked = new Map();
+        this.picked = [];
         this.drawTiles = new DrawHandler(gameElem.firstElementChild);
-        this.pickedTiles = new DrawHandler(gameElem.firstChild.nextElementSibling);
+        this.pickedTiles = new DrawHandler(gameElem.firstElementChild.nextElementSibling);
         this.drawSize = 10;
         this.gameState = PICKING;
         this.timerElem = timerElem;
@@ -19,71 +19,44 @@ export default class {
         this.gameDelay = gameDelay * 1000;
         this.solution = [];
         this.gameTimer = null;
-        this.drawTiles.attachTouchListener(this.pickDraw.bind(this));
-        this.pickedTiles.attachTouchListener(this.pickPick.bind(this));
+        this.drawTiles.attachTouchListener(this.pick.bind(this));
+        this.pickedTiles.attachTouchListener(this.unPick.bind(this));
         this.gameStart = () => {
+            this.gameState = STARTED;
             this.gameTimer = setTimeout(this.displaySolution.bind(this), this.gameDelay);
             this.updateSolution(dl.maxAvail(this.draw));
         }
     }
 
-    pickDraw(index) {
-        if (this.gameState === STARTED) {
-            if (!this.picked.has(index)) {
-                greyOut(elem);
-                this.picked.set(index, );
-            } else {
-                removeElem(this.picked.get(index));
-                this.picked.delete(index);
-                unGrey(elem);
-                if (this.picked.size === 0) this.cleanPicked();
+    unPick(pickIndex) {
+        if (this.gameState === STARTED && pickIndex < this.picked.length) {
+            const tileIndex = this.picked[pickIndex];
+            for (let i = pickIndex; i < this.picked.length - 1; i++) {
+                this.picked[i] = this.picked[i + 1];
+                this.pickedTiles.setValue(this.draw[this.picked[i]], i);
             }
-            // console.log('current word is : ', this.pickedSolution);
+            this.picked.pop();
+            this.pickedTiles.remove(this.picked.length);
+            this.drawTiles.unpick(tileIndex);
         }
     }
 
-    pickPick(index) {
-
+    pick(pickIndex) {
+        if (this.gameState === STARTED) {
+            const apI = this.picked.indexOf(pickIndex);
+            if (apI === -1) {
+                this.pickedTiles.setValue(this.draw[pickIndex], this.picked.push(pickIndex) - 1);
+                this.drawTiles.pick(pickIndex);
+            } else {
+                this.unPick(apI);
+            }
+        }
     }
 
     get pickedSolution() {
         let pw = '';
         for(let i of this.picked.keys()){pw += this.draw[i]}
         return pw
-    }
-
-    initDrawPickedElem() {
-        this.pickedElem = generateDraw('game-draw-dl');
-        this.gameElem.appendChild(this.pickedElem);
-    }
-
-    cleanPicked() {
-        removeElem(this.pickedElem);
-        this.pickedElem = undefined;
-    }
-
-    displayPickedLetter(l, index, letterElem) {
-        const lElem = generateTile(l, this.pickLetter.bind(this, index, letterElem));
-        if (!this.pickedElem) {
-            this.initDrawPickedElem();
-        }
-        this.pickedElem.appendChild(lElem);
-        return lElem;
-    }
-
-    pickLetter(index, elem) {
-        if (this.gameState === STARTED) {
-            if (!this.picked.has(index)) {
-                greyOut(elem);
-                this.picked.set(index, this.displayPickedLetter(this.draw[index], index, elem));
-            } else {
-                removeElem(this.picked.get(index));
-                this.picked.delete(index);
-                unGrey(elem);
-                if (this.picked.size === 0) this.cleanPicked();
-            }
-            // console.log('current word is : ', this.pickedSolution);
-        }
     }
 
     displaySolution() {
@@ -97,8 +70,6 @@ export default class {
     }
 
     spawnTimer() {
-        this.gameState = STARTED;
-        this.remaining = this.draw.slice(0);
         this.timerElem.addEventListener('animationstart', this.gameStart, {once: true});
         generateTimer(this.timerElem);
         this.timerElem.className = 'timer';
@@ -115,14 +86,10 @@ export default class {
         this.removeTimer();
         this.drawTiles.reset();
         this.pickedTiles.reset();
+        if(this.gameState === ENDED) this.gameElem.querySelector('.game-answer').remove();
         this.draw = [];
-        this.picked = new Map();
+        this.picked = [];
         this.gameState = PICKING;
-    }
-
-    initDrawElem() {
-        this.drawElem = generateDraw('game-draw-dl');
-        this.gameElem.appendChild(this.drawElem);
     }
 
     displayDrawLetter(l, index) {
