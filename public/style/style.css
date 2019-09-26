@@ -16,6 +16,10 @@ button {
     /*background-color: #4589d7;*/
 }
 
+.game-container button {
+    font-size: 0.65em;
+}
+
 * {
     user-select: none;
 }
@@ -77,6 +81,13 @@ button:focus {
     display: none;
 }
 
+.game-title {
+    padding: 0.1em 0.1em;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    margin-bottom: 0.1em;
+}
+
 .game-content {
     white-space: pre-line;
 }
@@ -101,16 +112,17 @@ button:focus {
 
 .game-draw-dl:first-child::after {
     display: block;
+    margin: 0 10%;
     width: 80%;
     position: relative;
     content: '';
     border-bottom: 3px solid black;
-    top: calc(0.05em - 3/2 * 1px);
+    top: calc(0.05em - 1px);
 }
 
 .game-draw-dl {
-    font-size: 1.3em;
-    justify-content: center;
+    font-size: 0.7em;
+    /*justify-content: center;*/
 }
 
 .tile-wrapper {
@@ -118,7 +130,7 @@ button:focus {
     height: 1.7em;
     width: 1.3em;
     cursor: pointer;
-    margin: 0 0.05em 0.15em;
+    margin-bottom: 0.20em;
     perspective: 1000px;
 }
 
@@ -179,10 +191,6 @@ button:focus {
     border-radius: 5px;
     margin-bottom: 0.15em;
     color: white;
-}
-
-.game-draw-dl > span {
-    margin-right: 0.1em;
 }
 
 .grayed {
