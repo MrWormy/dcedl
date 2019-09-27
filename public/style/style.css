@@ -96,7 +96,6 @@ button:focus {
     .container {
         font-size: 10vw;
         width: 100vw;
-        margin-top: 0;
     }
     #loading {
         height: 100vh;
@@ -107,7 +106,6 @@ button:focus {
     .container {
         font-size: 6vw;
         width: 100vw;
-        margin-top: 0;
         flex-flow: row nowrap;
     }
     .left-hanging {
