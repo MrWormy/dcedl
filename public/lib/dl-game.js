@@ -1,6 +1,6 @@
 import * as dl from './dl.js';
 import DrawHandler from './tile-handler.js'
-import {generateAnswer, clean, generateTimer} from './utils.js';
+import {okay, clean, generateTimer} from './utils.js';
 
 const PICKING = 1;
 const STARTED = 2;
@@ -16,6 +16,7 @@ export default class {
         this.gameState = PICKING;
         this.timerElem = timerElem;
         this.gameElem = gameElem;
+        this.answerElem = this.gameElem.querySelector('.game-answer');
         this.gameDelay = gameDelay * 1000;
         this.solution = [];
         this.gameTimer = null;
@@ -54,15 +55,18 @@ export default class {
     }
 
     get pickedSolution() {
-        let pw = '';
-        for(let i of this.picked.keys()){pw += this.draw[i]}
-        return pw
+        return this.picked.map((p) => this.draw[p]).join('');
     }
 
     displaySolution() {
         this.gameState = ENDED;
-        this.gameElem.appendChild(generateAnswer(this.solution.join(', ')));
-        console.log(this.pickedSolution, dl.isOkay(this.pickedSolution, this.draw));
+        if (this.pickedSolution.length > 0) {
+            const answer = dl.isOkay(this.pickedSolution, this.draw);
+            const isOkay = answer !== null;
+            this.answerElem.appendChild(okay(isOkay ? answer : this.pickedSolution, isOkay));
+        }
+        this.answerElem.appendChild(document.createTextNode('▷ '));
+        this.answerElem.appendChild(document.createTextNode(this.solution.join(', ')));
     }
 
     updateSolution(sol) {
@@ -86,7 +90,7 @@ export default class {
         this.removeTimer();
         this.drawTiles.reset();
         this.pickedTiles.reset();
-        if(this.gameState === ENDED) this.gameElem.querySelector('.game-answer').remove();
+        clean(this.answerElem);
         this.draw = [];
         this.picked = [];
         this.gameState = PICKING;

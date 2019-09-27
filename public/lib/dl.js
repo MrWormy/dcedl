@@ -17,7 +17,7 @@ function isDoable(word, draw) {
 }
 
 function isOkay(word, draw) {
-    return dlSet.hasOwnProperty(word) && isDoable(word, draw);
+    return (dlSet.hasOwnProperty(word) && isDoable(word, draw)) ? dlSet[word] : null;
 }
 
 function computeMaxAvail(words, draw, numWord = 3) {

@@ -93,6 +93,13 @@ export function generateTimer(parent) {
     parent.appendChild(tt);
 }
 
+export function okay(str, isOkay = true) {
+    const span = document.createElement('span');
+    span.classList.add(isOkay ? 'str-okay' : 'str-nokay');
+    span.appendChild(document.createTextNode(`${str} (${str.length}) ${isOkay ? '✓' : '✗'} `));
+    return span;
+}
+
 export function removeElem(elem) {
     if (elem.parentElement) elem.parentElement.removeChild(elem);
 }

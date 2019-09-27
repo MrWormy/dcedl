@@ -17,7 +17,8 @@ button {
 }
 
 .game-container button {
-    font-size: 0.65em;
+    font-size: 0.75em;
+    padding: 0.1em 0.5em;
 }
 
 * {
@@ -51,24 +52,6 @@ button {
     background-image: url("../assets/loading.png");
 }
 
-@media (max-aspect-ratio: 11/16) {
-    .container {
-        font-size: 10vw;
-        width: 100vw;
-        margin-top: 0;
-    }
-    #loading {
-        height: 100vh;
-    }
-}
-
-@media (min-aspect-ratio: 9/8) {
-    .container {
-        font-size: 5vw;
-        width: 50%;
-    }
-}
-
 button:focus {
     outline: 0;
 }
@@ -94,7 +77,59 @@ button:focus {
 
 .game-answer {
     white-space: pre-line;
-    margin: 2vmin 0;
+    font-size: 0.7em;
+    width: 100%;
+    min-height: 1.5em;
+    background-color: aliceblue;
+    margin-bottom: 0.2em;
+}
+
+.str-okay {
+    color: darkseagreen;
+}
+
+.str-nokay {
+    color: firebrick;
+}
+
+@media (max-aspect-ratio: 11/16) {
+    .container {
+        font-size: 10vw;
+        width: 100vw;
+        margin-top: 0;
+    }
+    #loading {
+        height: 100vh;
+    }
+}
+
+@media (min-aspect-ratio: 9/8) {
+    .container {
+        font-size: 6vw;
+        width: 100vw;
+        margin-top: 0;
+        flex-flow: row nowrap;
+    }
+    .left-hanging {
+        min-width: 60%;
+        padding-right: 1%;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+    .right-hanging {
+        display: flex;
+    }
+    .game-content {
+        flex: 1;
+        flex-flow: column nowrap;
+    }
+    .game-answer {
+        flex: 1;
+        margin-bottom: 0;
+    }
+    #choice .element {
+        flex: 1;
+    }
 }
 
 .game-draw {
