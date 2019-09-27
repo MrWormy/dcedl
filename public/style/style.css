@@ -1,6 +1,7 @@
 html {
     font-family: "Proxima Nova Soft", "Helvetica Neue", sans-serif;
     background-color: #dae0e6;
+    touch-action: manipulation;
 }
 
 body {
